@@ -33,6 +33,15 @@
       overflow-x: hidden;
     }
 
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    nav, section, #contact, footer { position: relative; z-index: 1; }
+
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -472,6 +481,7 @@
 </head>
 <body>
 
+<canvas id="stars-canvas"></canvas>
 <nav>
   <a href="#hero" class="nav-logo">Shameer's <span>Portfolio</span></a>
   <ul class="nav-links">
@@ -499,11 +509,11 @@
   <div class="hero-content">
     <div class="hero-badge">Open to Internship &amp; Co-op · Fall 2026</div>
     <h1 class="hero-name">Shameer <span class="accent">Sheikh</span></h1>
-    <p class="hero-title">Computer Science Student · ML / Computer Vision · Full-Stack</p>
+    <p class="hero-title">Computer Science Student · SWE Intern · Research Assistant</p>
     <p class="hero-desc">
       Building intelligent systems at the intersection of machine learning, computer vision,
       and full-stack engineering. USF Green &amp; Gold Presidential Scholar, researcher, and
-      builder currently seeking Summer/Fall 2026 internships.
+      builder currently seeking Fall 2026 internships.
     </p>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">View Projects ↓</a>
@@ -836,6 +846,45 @@
 </footer>
 
 <script>
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  function initStars() {
+    stars = Array.from({ length: 160 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.2,
+      speed: Math.random() * 0.15 + 0.03,
+      opacity: Math.random() * 0.5 + 0.1,
+    }));
+  }
+  initStars();
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220, 200, 255, ${s.opacity})`;
+      ctx.fill();
+      s.y += s.speed;
+      if (s.y > canvas.height) {
+        s.y = 0;
+        s.x = Math.random() * canvas.width;
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
   const observer = new IntersectionObserver(
     (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
     { threshold: 0.1 }
