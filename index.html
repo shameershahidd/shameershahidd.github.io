@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shameer Sheikh — CS Student & Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #06040f;
+      --bg2: #0b0818;
+      --bg3: #100d20;
+      --border: #2a1f4a;
+      --accent: #a855f7;
+      --accent2: #7c3aed;
+      --accent3: #c084fc;
+      --text: #ede9f6;
+      --muted: #7a6f9a;
+      --card: #0d0b18;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(6, 4, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(42, 31, 74, 0.6);
+      transition: all 0.3s;
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(168,85,247,0.1) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 50% at 20% 70%, rgba(124,58,237,0.09) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: linear-gradient(rgba(42,31,74,0.3) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(42,31,74,0.3) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent3);
+      border: 1px solid rgba(192,132,252,0.25);
+      background: rgba(192,132,252,0.07);
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-name .accent { color: var(--accent); }
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      color: #a899c8;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #06040f;
+    }
+    .btn-primary:hover { background: #b97cf8; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(168,85,247,0.35); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    .hero-socials {
+      margin-top: 3rem;
+      display: flex; gap: 1rem; align-items: center;
+    }
+    .social-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      transition: color 0.2s;
+    }
+    .social-link:hover { color: var(--accent); }
+    .social-link svg { width: 16px; height: 16px; }
+    .social-sep { color: var(--border); }
+
+    section { padding: 5rem 2rem; max-width: 1000px; margin: 0 auto; }
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .section-divider {
+      width: 40px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin-bottom: 2.5rem;
+    }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-card-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 5px;
+      background: rgba(168,85,247,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(168,85,247,0.25);
+    }
+    .tag.purple {
+      background: rgba(124,58,237,0.12);
+      color: #c084fc;
+      border-color: rgba(192,132,252,0.25);
+    }
+    .tag.teal {
+      background: rgba(167,139,250,0.1);
+      color: #a78bfa;
+      border-color: rgba(167,139,250,0.25);
+    }
+    .tag.orange {
+      background: rgba(232,121,249,0.1);
+      color: #e879f9;
+      border-color: rgba(232,121,249,0.2);
+    }
+
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .tl-item {
+      padding-left: 2rem;
+      padding-bottom: 2.5rem;
+      position: relative;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute; left: -4px; top: 8px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(168,85,247,0.2);
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-header { margin-bottom: 0.5rem; }
+    .tl-role {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tl-org {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 0.1rem;
+    }
+    .tl-meta {
+      display: flex; gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .tl-bullets {
+      margin-top: 0.75rem;
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .tl-bullets li {
+      font-size: 0.875rem;
+      color: #a899c8;
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.65;
+    }
+    .tl-bullets li::before {
+      content: '›';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .tl-tech { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .proj-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .proj-card:hover { border-color: rgba(168,85,247,0.45); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+    .proj-card:hover::before { opacity: 1; }
+    .proj-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .proj-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .proj-role {
+      font-size: 0.75rem;
+      color: var(--accent3);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .proj-desc { font-size: 0.84rem; color: #a899c8; line-height: 1.65; flex: 1; }
+    .proj-tech { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem 2rem;
+      display: flex; gap: 1.5rem; align-items: flex-start;
+    }
+    .edu-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .edu-degree { font-size: 1.05rem; font-weight: 700; }
+    .edu-school { font-size: 0.9rem; color: var(--accent); font-weight: 500; margin-top: 0.15rem; }
+    .edu-meta { font-size: 0.75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 0.25rem; }
+    .edu-details { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .edu-detail { font-size: 0.84rem; color: #a899c8; }
+    .edu-detail strong { color: var(--text); font-weight: 500; }
+    .edu-courses { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .lead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+    .lead-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .lead-card:hover { border-color: rgba(168,85,247,0.45); transform: translateY(-2px); }
+    .lead-title { font-size: 1rem; font-weight: 600; }
+    .lead-org { font-size: 0.8rem; color: var(--accent3); font-weight: 500; margin-top: 0.15rem; }
+    .lead-date { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem; margin-bottom: 0.75rem; }
+    .lead-desc { font-size: 0.84rem; color: #a899c8; line-height: 1.65; }
+
+    #contact {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+    #contact > div { max-width: 600px; margin: 0 auto; text-align: center; }
+    .contact-title { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .contact-sub { color: var(--muted); font-size: 1rem; margin-bottom: 2rem; }
+    .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .contact-link svg { width: 18px; height: 18px; }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.85rem 1.25rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links li:nth-child(n+4) { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      .edu-card { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">ss<span>.dev</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Open to Internship &amp; Co-op · Fall 2026</div>
+    <h1 class="hero-name">Shameer <span class="accent">Sheikh</span></h1>
+    <p class="hero-title">Computer Science Student · ML / Computer Vision · Full-Stack</p>
+    <p class="hero-desc">
+      Building intelligent systems at the intersection of machine learning, computer vision,
+      and full-stack engineering. USF Green &amp; Gold Presidential Scholar, researcher, and
+      builder — currently seeking Summer/Fall 2026 internships.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects ↓</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/shameershahidd" target="_blank" class="social-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        shameershahidd
+      </a>
+      <span class="social-sep">·</span>
+      <a href="https://linkedin.com/in/shameershahid" target="_blank" class="social-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        shameershahid
+      </a>
+      <span class="social-sep">·</span>
+      <a href="mailto:shameershahidsheikh@gmail.com" class="social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="fade-in">
+    <h2 class="section-title">Technical Stack</h2>
+    <div class="section-divider"></div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-label">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Java</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">C</span>
+          <span class="tag">SQL</span>
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Frameworks &amp; Libraries</div>
+        <div class="skill-tags">
+          <span class="tag purple">React</span>
+          <span class="tag purple">Next.js</span>
+          <span class="tag purple">Spring Boot</span>
+          <span class="tag purple">FastAPI</span>
+          <span class="tag purple">OpenCV</span>
+          <span class="tag purple">PyTorch</span>
+          <span class="tag purple">MediaPipe</span>
+          <span class="tag purple">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Tools &amp; Databases</div>
+        <div class="skill-tags">
+          <span class="tag teal">PostgreSQL</span>
+          <span class="tag teal">MongoDB</span>
+          <span class="tag teal">Docker</span>
+          <span class="tag teal">Git</span>
+          <span class="tag teal">Jupyter</span>
+          <span class="tag teal">Jira</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Domains</div>
+        <div class="skill-tags">
+          <span class="tag orange">Machine Learning</span>
+          <span class="tag orange">Computer Vision</span>
+          <span class="tag orange">NLP</span>
+          <span class="tag orange">Full-Stack</span>
+          <span class="tag orange">REST APIs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="fade-in">
+    <h2 class="section-title">Work Experience</h2>
+    <div class="section-divider"></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-header">
+          <div class="tl-role">Research Assistant — Transportation CV</div>
+          <div class="tl-org">Center for Urban Transportation Research, USF</div>
+          <div class="tl-meta">
+            <span>Apr 2026 – Present</span>
+            <span>Tampa, FL</span>
+          </div>
+        </div>
+        <ul class="tl-bullets">
+          <li>Collecting field data on micromobility devices (e-scooters, bikes) across urban environments to support transportation safety research.</li>
+          <li>Applying computer vision techniques to analyze video footage, extracting insights on device counts, usage patterns, and safety compliance.</li>
+        </ul>
+        <div class="tl-tech">
+          <span class="tag">Python</span>
+          <span class="tag purple">Computer Vision</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-header">
+          <div class="tl-role">Software Engineer Intern</div>
+          <div class="tl-org">SamSearch</div>
+          <div class="tl-meta">
+            <span>Mar 2026 – May 2026</span>
+            <span>Tampa, FL</span>
+          </div>
+        </div>
+        <ul class="tl-bullets">
+          <li>Contributed to an AI-powered government contract intelligence platform, building integrations with CRMs and productivity tools to automate workflows for contractors.</li>
+        </ul>
+        <div class="tl-tech">
+          <span class="tag">Python</span>
+          <span class="tag purple">React.js</span>
+          <span class="tag purple">FastAPI</span>
+          <span class="tag teal">PostgreSQL</span>
+          <span class="tag teal">OAuth 2.0</span>
+          <span class="tag teal">REST APIs</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-header">
+          <div class="tl-role">Research Assistant — Computer Vision</div>
+          <div class="tl-org">Secure and Intelligent Systems Lab, USF</div>
+          <div class="tl-meta">
+            <span>Jan 2026 – May 2026</span>
+            <span>Tampa, FL</span>
+          </div>
+        </div>
+        <ul class="tl-bullets">
+          <li>Preprocessed video data from maritime vessels and trained CV models for crew work-hour compliance and safety procedure monitoring under Dr. Yasin Yilmaz.</li>
+        </ul>
+        <div class="tl-tech">
+          <span class="tag">Python</span>
+          <span class="tag purple">OpenCV</span>
+          <span class="tag purple">PyTorch</span>
+          <span class="tag purple">NumPy</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="fade-in">
+    <h2 class="section-title">Engineering Projects</h2>
+    <div class="section-divider"></div>
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <div class="proj-icon">🔬</div>
+        <div class="proj-title">LLM Robustness Research</div>
+        <div class="proj-role">NLP Researcher · Team of 3</div>
+        <div class="proj-desc">
+          Investigated whether Chain-of-Thought and Self-Consistency prompting can recover LLM accuracy degraded by irrelevant context on GSM-Symbolic benchmarks. Ran 4,200+ inference calls across 3 SOTA models; introduced a recovery rate metric. Self-Consistency fully closes the accuracy gap for Llama-3.3-70b (Cohen's κ = 1.0 on 30 annotated CoT traces).
+        </div>
+        <div class="proj-tech">
+          <span class="tag">Python</span>
+          <span class="tag purple">Groq API</span>
+          <span class="tag purple">Llama-3.3-70b</span>
+          <span class="tag purple">Qwen3-32b</span>
+          <span class="tag orange">CoT</span>
+          <span class="tag orange">Self-Consistency</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">🤟</div>
+        <div class="proj-title">ASL Recognition System</div>
+        <div class="proj-role">ML Engineer · Team of 4</div>
+        <div class="proj-desc">
+          Real-time ASL recognition for 36 static gestures (A–Z, 0–9) using a custom CNN and MediaPipe hand detection. Built an end-to-end pipeline — hand cropping, background removal, grayscale, normalization — and trained on 2,515 images with 5-frame temporal smoothing, achieving <strong>94% test accuracy</strong>.
+        </div>
+        <div class="proj-tech">
+          <span class="tag">Python</span>
+          <span class="tag purple">CNN</span>
+          <span class="tag purple">MediaPipe</span>
+          <span class="tag purple">OpenCV</span>
+          <span class="tag orange">Computer Vision</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">🦇</div>
+        <div class="proj-title">Autonomous Line-Following Batmobile</div>
+        <div class="proj-role">Design Lead · Team of 5 · 🥇 1st of 18 teams</div>
+        <div class="proj-desc">
+          Engineered an autonomous 4-wheel robotic vehicle with ultrasonic obstacle avoidance — <strong>100% collision-free across 20+ trials</strong>. Led the full design-to-build lifecycle; implemented Arduino control logic in C processing sensor data at 10 Hz for high-precision line tracking.
+        </div>
+        <div class="proj-tech">
+          <span class="tag">C</span>
+          <span class="tag teal">Arduino</span>
+          <span class="tag teal">TinkerCAD</span>
+          <span class="tag orange">Embedded Systems</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="fade-in">
+    <h2 class="section-title">Education</h2>
+    <div class="section-divider"></div>
+    <div class="edu-card">
+      <div class="edu-icon">🏛️</div>
+      <div>
+        <div class="edu-degree">B.S. Computer Science, Minor in Psychology</div>
+        <div class="edu-school">University of South Florida</div>
+        <div class="edu-meta">Aug 2022 – Expected Dec 2026 · Tampa, FL</div>
+        <div class="edu-details">
+          <div class="edu-detail"><strong>Scholarship:</strong> USF Green &amp; Gold Presidential Scholar</div>
+          <div class="edu-detail"><strong>Relevant Coursework:</strong></div>
+        </div>
+        <div class="edu-courses">
+          <span class="tag">Data Structures &amp; Algorithms</span>
+          <span class="tag purple">Natural Language Processing</span>
+          <span class="tag purple">Computer Vision</span>
+          <span class="tag teal">Database Design</span>
+          <span class="tag teal">Computer Networks</span>
+          <span class="tag teal">Operating Systems</span>
+          <span class="tag orange">Software Engineering</span>
+        </div>
+        <div style="margin-top:1rem;">
+          <div class="edu-detail" style="margin-bottom:0.5rem;"><strong>Activities:</strong></div>
+          <div class="skill-tags">
+            <span class="tag">SASE</span>
+            <span class="tag">STEMCORE</span>
+            <span class="tag">Stampede Sounds</span>
+            <span class="tag">PSA</span>
+            <span class="tag">Cricket Club</span>
+            <span class="tag">Pickleball Club</span>
+            <span class="tag">HackaBull</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="leadership">
+  <div class="fade-in">
+    <h2 class="section-title">Leadership</h2>
+    <div class="section-divider"></div>
+    <div class="lead-grid">
+
+      <div class="lead-card">
+        <div class="lead-title">Vice President</div>
+        <div class="lead-org">Stampede Sounds Collective, USF</div>
+        <div class="lead-date">Apr 2024 – May 2025</div>
+        <div class="lead-desc">
+          Second-in-command for a 14-member executive board, overseeing strategic operations, 20+ annual activities, and event execution for a 400+ member organization; deputized for the President in administrative meetings.
+        </div>
+      </div>
+
+      <div class="lead-card">
+        <div class="lead-title">Director of Fundraising</div>
+        <div class="lead-org">Society of Asian Scientists and Engineers (SASE), USF</div>
+        <div class="lead-date">Aug 2025 – May 2026</div>
+        <div class="lead-desc">
+          Spearheaded <strong style="color:#c084fc;">$5K+</strong> in capital procurement through 5+ fundraising campaigns via multi-channel outreach targeting local businesses and alumni, supporting one of the largest engineering student organizations in the US.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="max-width:100%;">
+  <div>
+    <h2 class="contact-title">Let's Connect</h2>
+    <p class="contact-sub">Open to internships, research opportunities, and interesting conversations.</p>
+    <div class="contact-links">
+
+      <a href="mailto:shameershahidsheikh@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        shameershahidsheikh@gmail.com
+      </a>
+
+      <a href="https://linkedin.com/in/shameershahid" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+
+      <a href="https://github.com/shameershahidd" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+
+      <a href="tel:+18138976000" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +1 (813) 897-6000
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built with HTML &amp; CSS · Shameer Sheikh © 2026
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 60
+      ? 'rgba(6, 4, 15, 0.97)'
+      : 'rgba(6, 4, 15, 0.85)';
+  });
+</script>
+</body>
+</html>
