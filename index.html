@@ -969,13 +969,17 @@
     const src = audioCtx.createBufferSource();
     src.buffer = buf;
     const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
     src.connect(gain);
     gain.connect(audioCtx.destination);
     src.start();
   }
-  document.addEventListener('click', playClick);
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a, button, .btn, .contact-link, .proj-card, .skill-card')) {
+      playClick();
+    }
+  });
 
   const navLinks = document.querySelectorAll('.nav-links a');
   const sections = document.querySelectorAll('section[id], #contact');
