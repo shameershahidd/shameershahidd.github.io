@@ -330,6 +330,46 @@
     .edu-detail strong { color: var(--text); font-weight: 500; }
     .edu-courses { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
+    .about-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-photo img {
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      display: block;
+      filter: grayscale(15%);
+      transition: border-color 0.3s, filter 0.3s;
+    }
+    .about-photo img:hover { border-color: var(--accent); filter: grayscale(0%); }
+    .about-text p {
+      font-size: 1rem;
+      color: #d0d0d0;
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text em { color: var(--accent); font-style: normal; }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; justify-items: center; gap: 1.75rem; }
+      .about-photo img { width: 160px; height: 160px; }
+      .about-text { text-align: center; }
+    }
+
+    .exp-subtitle {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
     .leetcode-wrap {
       display: flex;
       justify-content: center;
@@ -524,9 +564,26 @@
 
 <section id="about">
   <div class="fade-in">
-    <h2 class="section-title">Technical Stack</h2>
+    <h2 class="section-title">About</h2>
     <div class="section-divider"></div>
-    <div class="skills-grid">
+    <div class="about-grid">
+      <div class="about-photo">
+        <img src="profile.jpg" alt="Shameer Sheikh" />
+      </div>
+      <div class="about-text">
+        <p>i'm a computer science student at the <em>university of south florida</em>, passionate about building things that matter. i'm deeply interested in how ai is reshaping the world — from the way we work to the way we create.</p>
+        <p>outside of tech, i'm a big cricket fan and love music — my favourite artists are <em>tame impala</em> and <em>travis scott</em>. when it comes to films, nothing beats <em>inglourious basterds</em> and <em>before sunrise</em>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="fade-in">
+    <h2 class="section-title">Experience</h2>
+    <div class="section-divider"></div>
+    <div class="exp-subtitle">Technical Stack</div>
+    <div class="skills-grid" style="margin-bottom: 3rem;">
       <div class="skill-card">
         <div class="skill-card-label">Languages</div>
         <div class="skill-tags">
@@ -574,13 +631,7 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="experience">
-  <div class="fade-in">
-    <h2 class="section-title">Work Experience</h2>
-    <div class="section-divider"></div>
+    <div class="exp-subtitle">Work Experience</div>
     <div class="timeline">
 
       <div class="tl-item">
