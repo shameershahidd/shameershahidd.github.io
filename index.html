@@ -959,6 +959,24 @@
       : 'rgba(6, 4, 15, 0.85)';
   });
 
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playClick() {
+    const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.04, audioCtx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 8);
+    }
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+    src.connect(gain);
+    gain.connect(audioCtx.destination);
+    src.start();
+  }
+  document.addEventListener('click', playClick);
+
   const navLinks = document.querySelectorAll('.nav-links a');
   const sections = document.querySelectorAll('section[id], #contact');
   const sectionObserver = new IntersectionObserver((entries) => {
