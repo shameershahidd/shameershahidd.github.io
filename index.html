@@ -11,16 +11,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #06040f;
-      --bg2: #0b0818;
-      --bg3: #100d20;
-      --border: #2a1f4a;
-      --accent: #a855f7;
-      --accent2: #7c3aed;
-      --accent3: #c084fc;
-      --text: #ede9f6;
-      --muted: #7a6f9a;
-      --card: #0d0b18;
+      --bg: #000000;
+      --bg2: #050505;
+      --bg3: #0a0a0a;
+      --border: #0d2a18;
+      --accent: #1DB954;
+      --accent2: #158a3e;
+      --accent3: #1ED760;
+      --text: #f0f0f0;
+      --muted: #4a7a5a;
+      --card: #060e09;
     }
 
     html { scroll-behavior: smooth; }
@@ -83,13 +83,13 @@
     }
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(168,85,247,0.1) 0%, transparent 70%),
-                  radial-gradient(ellipse 60% 50% at 20% 70%, rgba(124,58,237,0.09) 0%, transparent 60%);
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(29,185,84,0.09) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 50% at 20% 70%, rgba(21,138,62,0.07) 0%, transparent 60%);
     }
     .hero-grid {
       position: absolute; inset: 0; z-index: 0;
-      background-image: linear-gradient(rgba(42,31,74,0.3) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(42,31,74,0.3) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(29,185,84,0.07) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(29,185,84,0.07) 1px, transparent 1px);
       background-size: 60px 60px;
       mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 100%);
     }
@@ -99,8 +99,8 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       color: var(--accent3);
-      border: 1px solid rgba(192,132,252,0.25);
-      background: rgba(192,132,252,0.07);
+      border: 1px solid rgba(29,185,84,0.35);
+      background: rgba(29,185,84,0.08);
       padding: 0.35rem 0.85rem;
       border-radius: 100px;
       margin-bottom: 1.5rem;
@@ -125,7 +125,7 @@
     }
     .hero-desc {
       font-size: 1rem;
-      color: #a899c8;
+      color: #d0d0d0;
       max-width: 520px;
       margin-bottom: 2.5rem;
       line-height: 1.75;
@@ -145,7 +145,7 @@
       background: var(--accent);
       color: #06040f;
     }
-    .btn-primary:hover { background: #b97cf8; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(168,85,247,0.35); }
+    .btn-primary:hover { background: #1ED760; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(29,185,84,0.4); }
     .btn-outline {
       background: transparent;
       color: var(--text);
@@ -206,24 +206,24 @@
       font-size: 0.72rem;
       padding: 0.25rem 0.6rem;
       border-radius: 5px;
-      background: rgba(168,85,247,0.1);
+      background: rgba(29,185,84,0.1);
       color: var(--accent);
-      border: 1px solid rgba(168,85,247,0.25);
+      border: 1px solid rgba(29,185,84,0.25);
     }
     .tag.purple {
-      background: rgba(124,58,237,0.12);
-      color: #c084fc;
-      border-color: rgba(192,132,252,0.25);
+      background: rgba(30,215,96,0.08);
+      color: #1ED760;
+      border-color: rgba(30,215,96,0.22);
     }
     .tag.teal {
-      background: rgba(167,139,250,0.1);
-      color: #a78bfa;
-      border-color: rgba(167,139,250,0.25);
+      background: rgba(21,138,62,0.1);
+      color: #22c55e;
+      border-color: rgba(21,138,62,0.25);
     }
     .tag.orange {
-      background: rgba(232,121,249,0.1);
-      color: #e879f9;
-      border-color: rgba(232,121,249,0.2);
+      background: rgba(29,185,84,0.06);
+      color: #4ade80;
+      border-color: rgba(74,222,128,0.2);
     }
 
     .timeline { position: relative; }
@@ -244,7 +244,7 @@
       width: 9px; height: 9px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 0 3px rgba(168,85,247,0.2);
+      box-shadow: 0 0 0 3px rgba(29,185,84,0.2);
     }
     .tl-item:last-child { padding-bottom: 0; }
     .tl-header { margin-bottom: 0.5rem; }
@@ -262,10 +262,10 @@
     .tl-org a {
       color: inherit;
       text-decoration: none;
-      border-bottom: 1px solid rgba(168,85,247,0.3);
+      border-bottom: 1px solid rgba(29,185,84,0.3);
       transition: border-color 0.2s, color 0.2s;
     }
-    .tl-org a:hover { color: var(--accent3); border-color: var(--accent3); }
+    .tl-org a:hover { color: #1ED760; border-color: #1ED760; }
     .tl-meta {
       display: flex; gap: 1rem;
       font-size: 0.75rem;
@@ -280,7 +280,7 @@
     }
     .tl-bullets li {
       font-size: 0.875rem;
-      color: #a899c8;
+      color: #d0d0d0;
       padding-left: 1rem;
       position: relative;
       line-height: 1.65;
@@ -311,7 +311,7 @@
       opacity: 0;
       transition: opacity 0.2s;
     }
-    .proj-card:hover { border-color: rgba(168,85,247,0.45); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+    .proj-card:hover { border-color: rgba(29,185,84,0.4); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
     .proj-card:hover::before { opacity: 1; }
     .proj-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
     .proj-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
@@ -323,7 +323,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .proj-desc { font-size: 0.84rem; color: #a899c8; line-height: 1.65; flex: 1; }
+    .proj-desc { font-size: 0.84rem; color: #d0d0d0; line-height: 1.65; flex: 1; }
     .proj-tech { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
     .edu-card {
@@ -338,7 +338,7 @@
     .edu-school { font-size: 0.9rem; color: var(--accent); font-weight: 500; margin-top: 0.15rem; }
     .edu-meta { font-size: 0.75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 0.25rem; }
     .edu-details { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .edu-detail { font-size: 0.84rem; color: #a899c8; }
+    .edu-detail { font-size: 0.84rem; color: #d0d0d0; }
     .edu-detail strong { color: var(--text); font-weight: 500; }
     .edu-courses { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
@@ -353,8 +353,8 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .leetcode-wrap img:hover {
-      border-color: rgba(168,85,247,0.45);
-      box-shadow: 0 8px 32px rgba(168,85,247,0.15);
+      border-color: rgba(29,185,84,0.4);
+      box-shadow: 0 8px 32px rgba(29,185,84,0.15);
     }
 
     .lead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
@@ -365,11 +365,11 @@
       padding: 1.5rem;
       transition: border-color 0.2s, transform 0.2s;
     }
-    .lead-card:hover { border-color: rgba(168,85,247,0.45); transform: translateY(-2px); }
+    .lead-card:hover { border-color: rgba(29,185,84,0.4); transform: translateY(-2px); }
     .lead-title { font-size: 1rem; font-weight: 600; }
     .lead-org { font-size: 0.8rem; color: var(--accent3); font-weight: 500; margin-top: 0.15rem; }
     .lead-date { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem; margin-bottom: 0.75rem; }
-    .lead-desc { font-size: 0.84rem; color: #a899c8; line-height: 1.65; }
+    .lead-desc { font-size: 0.84rem; color: #d0d0d0; line-height: 1.65; }
 
     #contact {
       padding: 5rem 2rem;
@@ -824,7 +824,7 @@
         <div class="lead-date">Aug. 2025 – May. 2026 · Tampa, FL</div>
         <div class="lead-desc">
           <ul class="tl-bullets">
-            <li>Secured <strong style="color:#c084fc;">$5K+</strong> in sponsorships through outreach to local businesses and alumni.</li>
+            <li>Secured <strong style="color:#1ED760;">$5K+</strong> in sponsorships through outreach to local businesses and alumni.</li>
             <li>Led 5+ fundraising campaigns for one of the largest U.S. engineering student organizations, securing critical resources to support events and initiatives.</li>
           </ul>
         </div>
@@ -836,7 +836,7 @@
         <div class="lead-date">Aug. 2025 – Dec. 2025 · Tampa, FL</div>
         <div class="lead-desc">
           <ul class="tl-bullets">
-            <li>Identified grant opportunities and drafted successful proposals securing <strong style="color:#c084fc;">$1K+</strong> in funding for STEM programs.</li>
+            <li>Identified grant opportunities and drafted successful proposals securing <strong style="color:#1ED760;">$1K+</strong> in funding for STEM programs.</li>
             <li>Managed donor relations to sustain partnerships and long-term financial support.</li>
           </ul>
         </div>
@@ -860,7 +860,7 @@
         <div class="lead-date">May. 2024 – May. 2025 · Tampa, FL</div>
         <div class="lead-desc">
           <ul class="tl-bullets">
-            <li>Organized large-scale cultural events celebrating Pakistani heritage with <strong style="color:#c084fc;">800+</strong> attendees.</li>
+            <li>Organized large-scale cultural events celebrating Pakistani heritage with <strong style="color:#1ED760;">800+</strong> attendees.</li>
             <li>Managed budgeting, vendor negotiation, scheduling, and promotion to ensure smooth execution.</li>
           </ul>
         </div>
@@ -952,7 +952,7 @@
     for (const s of stars) {
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(220, 200, 255, ${s.opacity})`;
+      ctx.fillStyle = `rgba(180, 255, 200, ${s.opacity})`;
       ctx.fill();
       s.y += s.speed;
       if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
@@ -961,8 +961,8 @@
     for (let i = shootingStars.length - 1; i >= 0; i--) {
       const ss = shootingStars[i];
       const grad = ctx.createLinearGradient(ss.x, ss.y, ss.x - ss.vx / ss.width * ss.len * 0.12, ss.y - ss.vy / ss.width * ss.len * 0.12);
-      grad.addColorStop(0, `rgba(255, 240, 255, ${ss.opacity})`);
-      grad.addColorStop(1, `rgba(180, 120, 255, 0)`);
+      grad.addColorStop(0, `rgba(180, 255, 200, ${ss.opacity})`);
+      grad.addColorStop(1, `rgba(29, 185, 84, 0)`);
       ctx.beginPath();
       ctx.moveTo(ss.x, ss.y);
       ctx.lineTo(ss.x - ss.vx * (ss.len / 14), ss.y - ss.vy * (ss.len / 14));
