@@ -1550,10 +1550,14 @@
         W = r.width; H = r.height;
         canvas.width = W * dpr; canvas.height = H * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        stars = Array.from({ length: count }, () => ({
-          x: Math.random() * W, y: Math.random() * H * opt.band,
-          r: rnd(0.35, 1.05), a: rnd(opt.a[0], opt.a[1]), ph: rnd(0, 6.28), sp: rnd(0.4, 1.4), d: rnd(0.04, 0.22),
-        }));
+        stars = Array.from({ length: count }, () => {
+          const big = Math.random() < 0.1;               // a few brighter "feature" stars
+          return {
+            x: Math.random() * W, y: Math.random() * H * opt.band, big,
+            r: big ? rnd(1.4, 2) : rnd(0.55, 1.4), a: big ? rnd(0.8, 1) : rnd(opt.a[0], opt.a[1]),
+            ph: rnd(0, 6.28), sp: rnd(0.4, 1.4), d: rnd(0.04, 0.22),
+          };
+        });
       }
       size(); window.addEventListener('resize', size);
       if (opt.watch) new IntersectionObserver(e => { visible = e[0].isIntersecting; }).observe(canvas.parentElement);
@@ -1570,13 +1574,14 @@
           const fade = opt.band < 1 ? Math.max(0, 1 - y / (H * opt.band)) ** 0.6 : 1;
           ctx.globalAlpha = s.a * tw * fade;
           ctx.fillStyle = '#fff';
+          ctx.shadowColor = '#fff'; ctx.shadowBlur = s.big ? 6 : 0;
           ctx.beginPath(); ctx.arc(s.x, y, s.r, 0, 6.2832); ctx.fill();
         }
       }
       requestAnimationFrame(draw);
     }
-    field(document.getElementById('heroStars'), 110, { band: 0.62, a: [0.25, 0.7], parallax: false, watch: true });
-    field(document.getElementById('pageStars'), 85, { band: 1, a: [0.2, 0.55], parallax: true, watch: false });
+    field(document.getElementById('heroStars'), 140, { band: 0.62, a: [0.5, 0.95], parallax: false, watch: true });
+    field(document.getElementById('pageStars'), 100, { band: 1, a: [0.4, 0.85], parallax: true, watch: false });
   })();
 </script>
 </body>
