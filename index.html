@@ -621,10 +621,10 @@
 
     .stats {
       position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 5rem 2rem 1rem;
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.25rem 0;
     }
     .stat { padding: 0 1.5rem; border-left: 1px solid var(--border); }
-    .stat:first-child { border-left: none; padding-left: 0; }
+    .stat:nth-child(3n+1) { border-left: none; padding-left: 0; }
     .stat-num { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 300; letter-spacing: -0.04em; line-height: 1; color: #fff; }
     .stat-label { margin-top: 0.7rem; font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 
@@ -646,8 +646,10 @@
       .hero-cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
       .hero-meta { flex-wrap: wrap; gap: 0.6rem 1rem; padding: 0 1rem; font-size: 0.62rem; bottom: 1.25rem; }
       .scroll-line { display: none; }
-      .stats { grid-template-columns: 1fr 1fr; gap: 2rem 0; padding: 3.5rem 1.25rem 0; }
-      .stat:nth-child(3) { border-left: none; padding-left: 0; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 0; padding: 3.5rem 1.25rem 0; }
+      .stat-num { font-size: 2.4rem; }
+      .stats .stat { border-left: 1px solid var(--border); padding: 0 0 0 1rem; }
+      .stats .stat:nth-child(odd) { border-left: none; padding-left: 0; padding-right: 1rem; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
@@ -781,9 +783,11 @@
 
 <div class="stats fade-in">
   <div class="stat"><div class="stat-num" data-to="2">2</div><div class="stat-label">Software Engineer Internships</div></div>
-  <div class="stat"><div class="stat-num" data-to="2">2</div><div class="stat-label">Research Assistant Positions</div></div>
   <div class="stat"><div class="stat-num" data-to="100" data-suffix="+">100+</div><div class="stat-label">Contractors Using My SamSearch Integrations</div></div>
-  <div class="stat"><div class="stat-num" data-to="100" data-suffix="+">100+</div><div class="stat-label">Students Matched by My Recommendation Engine</div></div>
+  <div class="stat"><div class="stat-num" data-to="100" data-suffix="+">100+</div><div class="stat-label">Students Matched By My Recommendation Engine At Ummah Professionals</div></div>
+  <div class="stat"><div class="stat-num" data-to="2">2</div><div class="stat-label">Research Assistant Positions</div></div>
+  <div class="stat"><div class="stat-num" data-to="1" data-suffix="TB+">1TB+</div><div class="stat-label">Data Preprocessed At Secure and Intelligent Systems Lab</div></div>
+  <div class="stat"><div class="stat-num" data-to="1000" data-suffix="+">1,000+</div><div class="stat-label">Micro-Mobility Devices Logged At Center for Urban Transportation Research</div></div>
 </div>
 
 <section id="experience">
