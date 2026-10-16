@@ -671,6 +671,42 @@
       animation: breathe 7s ease-in-out infinite;
     }
     @keyframes breathe { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
+
+    /* ===== benchmark-style cards ===== */
+    .skill-card, .lead-card, .edu-card, .proj-card { border-radius: 2px; background: #0f0f10; border-color: #232325; }
+    .proj-card { padding: 1.9rem; }
+    .proj-card:hover { border-color: #3a3a3d; }
+    .proj-title { font-size: clamp(1.5rem, 2.4vw, 1.9rem); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.7rem; }
+    .proj-desc {
+      flex: none; font-size: 1rem; font-weight: 300; line-height: 1.65; color: #8f8f95;
+      display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+    }
+    .proj-desc strong { color: #d6d6da; font-weight: 400; }
+    .proj-card.open .proj-desc { display: block; -webkit-line-clamp: unset; }
+    .proj-metric-title { margin-top: auto; padding-top: 2.25rem; font-size: 1rem; font-weight: 500; color: #fff; }
+    .proj-rows { margin-top: 0.4rem; }
+    .m-row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 0.5rem 1rem; padding: 0.8rem 0; }
+    .m-row.nobar { border-bottom: 1px solid #1c1c1e; }
+    .m-name { font-size: 1rem; font-weight: 300; color: #e2e2e5; }
+    .m-val { font-size: 1rem; font-weight: 400; color: #fff; font-variant-numeric: tabular-nums; }
+    .m-bar { grid-column: 1 / -1; height: 3px; background: #262628; display: block; }
+    .m-bar i { display: block; height: 100%; background: #5a5a5f; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+    .m-row:first-child .m-bar i { background: #fff; }
+    .proj-tech { display: none; margin-top: 1.25rem; }
+    .proj-card.open .proj-tech { display: flex; }
+    .proj-more {
+      margin-top: 1.5rem; width: 100%; padding: 0.95rem; border: 0; border-radius: 2px;
+      background: #1a1a1c; color: #8f8f95; font: inherit; font-size: 1rem; font-weight: 300; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .proj-more:hover { background: #242427; color: #fff; }
+    .lead-title { font-size: 1.35rem; font-weight: 300; letter-spacing: -0.01em; }
+    .edu-degree { font-size: 1.5rem; font-weight: 300; letter-spacing: -0.015em; }
+
+    .hero-fullname {
+      font-size: clamp(1.15rem, 2vw, 1.5rem); font-weight: 400; letter-spacing: 0.02em;
+      color: #fff; text-align: center; margin-bottom: 0.45rem; animation: fadeUp 1s 1.1s both;
+    }
   </style>
 </head>
 <body>
@@ -720,8 +756,9 @@
   </header>
 
   <div class="hero-content" id="heroContent">
-    <h1 class="hero-name"><span class="w"><span style="--i:0">I</span></span> <span class="w"><span style="--i:1">build</span></span> <span class="w"><span style="--i:2">intelligent</span></span> <span class="w"><span style="--i:3">systems</span></span> <span class="w"><span style="--i:4">that</span></span> <span class="dim"><span class="w"><span style="--i:5">see,</span></span> <span class="w"><span style="--i:6">read</span></span> <span class="w"><span style="--i:7">&amp;</span></span> <span class="w"><span style="--i:8">reason.</span></span></span></h1>
-    <p class="hero-title">Shameer Sheikh &middot; Computer Science Student &middot; Prev. SWE Intern &middot; AI Research Assistant</p>
+    <h1 class="hero-name"><span class="w"><span style="--i:0">I</span></span> <span class="w"><span style="--i:1">turn</span></span> <span class="w"><span style="--i:2">data</span></span> <span class="w"><span style="--i:3">into</span></span><br><span class="dim"><span class="w"><span style="--i:4">things</span></span> <span class="w"><span style="--i:5">that</span></span> <span class="w"><span style="--i:6">think.</span></span></span></h1>
+    <p class="hero-fullname">Shameer Sheikh</p>
+    <p class="hero-title">Computer Science Student &middot; Prev. SWE Intern &middot; AI Research Assistant</p>
     <div class="hero-cta">
       <a href="#contact" class="btn btn-primary">Get in Touch</a>
       <a href="#projects" class="btn btn-outline">View Projects</a>
@@ -887,13 +924,15 @@
     <h2 class="section-title">Engineering Projects</h2>
     <div class="section-divider"></div>
     <div class="projects-grid">
-
       <div class="proj-card">
-        <div class="proj-icon">🔬</div>
         <div class="proj-title">LLM Robustness Research</div>
         <div class="proj-role">NLP Researcher · Team of 3</div>
-        <div class="proj-desc">
-          Evaluated whether Chain-of-Thought and Self-Consistency prompting recover LLM accuracy degraded by irrelevant context on the GSM-Symbolic benchmark, running <strong>4,200+ inference calls</strong> across Llama-3.3-70B, Llama-3.1-8B, and Qwen3-32B. Defined a recovery-rate metric showing Self-Consistency fully closes the accuracy gap on Llama-3.3-70B; annotating 30 CoT traces showed models never explicitly misuse the irrelevant sentences despite the accuracy drops.
+        <div class="proj-desc">Evaluated whether Chain-of-Thought and Self-Consistency prompting recover LLM accuracy degraded by irrelevant context on the GSM-Symbolic benchmark, running <strong>4,200+ inference calls</strong> across Llama-3.3-70B, Llama-3.1-8B, and Qwen3-32B. Defined a recovery-rate metric showing Self-Consistency fully closes the accuracy gap on Llama-3.3-70B; annotating 30 CoT traces showed models never explicitly misuse the irrelevant sentences despite the accuracy drops.</div>
+        <div class="proj-metric-title">Evaluation scale</div>
+        <div class="proj-rows">
+          <div class="m-row nobar"><span class="m-name">Inference calls</span><span class="m-val">4,200+</span></div>
+          <div class="m-row nobar"><span class="m-name">Models compared</span><span class="m-val">3</span></div>
+          <div class="m-row nobar"><span class="m-name">CoT traces annotated</span><span class="m-val">30</span></div>
         </div>
         <div class="proj-tech">
           <span class="tag">Python</span>
@@ -904,14 +943,17 @@
           <span class="tag orange">CoT</span>
           <span class="tag orange">Self-Consistency</span>
         </div>
+        <button class="proj-more" type="button" aria-expanded="false">View more</button>
       </div>
 
       <div class="proj-card">
-        <div class="proj-icon">🎬</div>
         <div class="proj-title">Generative AI Movie Recommendation System</div>
         <div class="proj-role">ML Engineer · May 2026</div>
-        <div class="proj-desc">
-          Built a GenAI recommender that uses an LLM to verbalize each user's watch history into a natural-language taste profile, then retrieves candidates with FAISS and reranks them with the LLM. Evaluated on MovieLens-1M (all 6,034 users, leave-last-out), nearly doubling catalog coverage (<strong>0.23 → 0.44</strong>) over an embedding-similarity baseline while surfacing recommendations across the long tail of the 3,883-movie catalog.
+        <div class="proj-desc">Built a GenAI recommender that uses an LLM to verbalize each user's watch history into a natural-language taste profile, then retrieves candidates with FAISS and reranks them with the LLM. Evaluated on MovieLens-1M (all 6,034 users, leave-last-out), nearly doubling catalog coverage (<strong>0.23 → 0.44</strong>) over an embedding-similarity baseline while surfacing recommendations across the long tail of the 3,883-movie catalog.</div>
+        <div class="proj-metric-title">Catalog coverage · MovieLens-1M</div>
+        <div class="proj-rows">
+          <div class="m-row"><span class="m-name">GenAI taste profile + LLM rerank</span><span class="m-val">0.44</span><span class="m-bar"><i style="width:44%"></i></span></div>
+          <div class="m-row"><span class="m-name">Embedding-similarity baseline</span><span class="m-val">0.23</span><span class="m-bar"><i style="width:23%"></i></span></div>
         </div>
         <div class="proj-tech">
           <span class="tag">Python</span>
@@ -921,14 +963,18 @@
           <span class="tag teal">Pandas</span>
           <span class="tag teal">NumPy</span>
         </div>
+        <button class="proj-more" type="button" aria-expanded="false">View more</button>
       </div>
 
       <div class="proj-card">
-        <div class="proj-icon">🤟</div>
         <div class="proj-title">ASL Recognition System</div>
         <div class="proj-role">ML Engineer · Team of 4</div>
-        <div class="proj-desc">
-          Developed a real-time ASL recognition system for 36 gestures (A–Z, 0–9) with a custom CNN and MediaPipe hand detection. Built an end-to-end pipeline (hand cropping, background removal, grayscale, normalization) and trained on 2,515 images (72/8/20 split) with 5-frame temporal smoothing, achieving <strong>94% test accuracy</strong> on unseen data.
+        <div class="proj-desc">Developed a real-time ASL recognition system for 36 gestures (A–Z, 0–9) with a custom CNN and MediaPipe hand detection. Built an end-to-end pipeline (hand cropping, background removal, grayscale, normalization) and trained on 2,515 images (72/8/20 split) with 5-frame temporal smoothing, achieving <strong>94% test accuracy</strong> on unseen data.</div>
+        <div class="proj-metric-title">Held-out test accuracy</div>
+        <div class="proj-rows">
+          <div class="m-row"><span class="m-name">Custom CNN + MediaPipe</span><span class="m-val">94%</span><span class="m-bar"><i style="width:94%"></i></span></div>
+          <div class="m-row nobar"><span class="m-name">Gestures recognized (A–Z, 0–9)</span><span class="m-val">36</span></div>
+          <div class="m-row nobar"><span class="m-name">Training images</span><span class="m-val">2,515</span></div>
         </div>
         <div class="proj-tech">
           <span class="tag">Python</span>
@@ -937,14 +983,18 @@
           <span class="tag purple">OpenCV</span>
           <span class="tag orange">Computer Vision</span>
         </div>
+        <button class="proj-more" type="button" aria-expanded="false">View more</button>
       </div>
 
       <div class="proj-card">
-        <div class="proj-icon">🦇</div>
         <div class="proj-title">Autonomous Line-Following Batmobile</div>
         <div class="proj-role">Design Lead · Team of 5 · 🥇 1st of 18 teams</div>
-        <div class="proj-desc">
-          Engineered an autonomous 4-wheel robotic vehicle with ultrasonic obstacle avoidance — <strong>100% collision-free across 20+ trials</strong>. Led the full design-to-build lifecycle; implemented Arduino control logic in C processing sensor data at 10 Hz for high-precision line tracking.
+        <div class="proj-desc">Engineered an autonomous 4-wheel robotic vehicle with ultrasonic obstacle avoidance — <strong>100% collision-free across 20+ trials</strong>. Led the full design-to-build lifecycle; implemented Arduino control logic in C processing sensor data at 10 Hz for high-precision line tracking.</div>
+        <div class="proj-metric-title">Track record</div>
+        <div class="proj-rows">
+          <div class="m-row"><span class="m-name">Collision-free trials (20+)</span><span class="m-val">100%</span><span class="m-bar"><i style="width:100%"></i></span></div>
+          <div class="m-row nobar"><span class="m-name">Competition placement</span><span class="m-val">1st of 18</span></div>
+          <div class="m-row nobar"><span class="m-name">Sensor loop</span><span class="m-val">10 Hz</span></div>
         </div>
         <div class="proj-tech">
           <span class="tag">C</span>
@@ -952,6 +1002,7 @@
           <span class="tag teal">TinkerCAD</span>
           <span class="tag orange">Embedded Systems</span>
         </div>
+        <button class="proj-more" type="button" aria-expanded="false">View more</button>
       </div>
 
     </div>
@@ -987,11 +1038,11 @@
     <div class="edu-card">
       <div class="edu-icon">🏛️</div>
       <div>
-        <div class="edu-degree">B.S. Computer Science, Minor in Psychology</div>
+        <div class="edu-degree">Bachelor of Science, Computer Science, Minor in Psychology</div>
         <div class="edu-school">University of South Florida</div>
         <div class="edu-meta">Aug. 2022 – Expected Dec. 2026 · Tampa, FL</div>
         <div class="edu-details">
-          <div class="edu-detail"><strong>CGPA:</strong> 3.60</div>
+          <div class="edu-detail"><strong>GPA:</strong> 3.6</div>
           <div class="edu-detail"><strong>Scholarship:</strong> USF Green &amp; Gold Presidential Scholar</div>
           <div class="edu-detail"><strong>Relevant Coursework:</strong></div>
         </div>
@@ -1091,7 +1142,7 @@
       </div>
       <div class="about-text">
         <p>i'm a computer science student at the <em>university of south florida</em>, passionate about building things that matter. i'm deeply interested in how ai is reshaping the world, from the way we work to the way we create.</p>
-        <p>outside of tech, i'm a big cricket fan and love music and cinema. my favourite artists are <em>tame impala</em> and <em>travis scott</em>, and my favourite films are <em>eternal sunshine of the spotless mind</em> and <em>before sunrise</em>.</p>
+        <p>away from the keyboard, i'm usually following cricket, working out in the gym, lost in music, or rewatching a film i can't shake.</p>
       </div>
     </div>
   </div>
@@ -1275,6 +1326,17 @@
       heat.style.display = 'none';
     }
   })();
+
+  // project cards: expand / collapse
+  document.querySelectorAll('.proj-more').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const card = btn.closest('.proj-card');
+      const open = card.classList.toggle('open');
+      btn.textContent = open ? 'View less' : 'View more';
+      btn.setAttribute('aria-expanded', open);
+    });
+  });
 </script>
 </body>
 </html>
