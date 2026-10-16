@@ -641,15 +641,15 @@
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       padding: 1.6rem 0; background: var(--bg);
     }
-    .marquee-track { display: inline-flex; animation: marquee 48s linear infinite; }
-    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .marquee.dragging { cursor: grabbing; }
+    .marquee-track { display: inline-flex; will-change: transform; }
     .marquee span {
       font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 300; letter-spacing: -0.03em; padding: 0 1.4rem;
       color: transparent; -webkit-text-stroke: 1px rgba(var(--fg-rgb),0.4);
     }
     .marquee span.f { color: var(--text); -webkit-text-stroke: 0; }
     .marquee span.s { -webkit-text-stroke: 0; color: var(--muted); font-size: 0.5em; vertical-align: middle; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
 
     .stats {
       position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 5rem 2rem 1rem;
@@ -676,13 +676,15 @@
       .hero-header { display: none; }
       .hero-content { padding: 6.5rem 1.25rem 8rem; }
       .hero-cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
-      .hero-meta { flex-wrap: wrap; gap: 0.6rem 1rem; padding: 0 1rem; font-size: 0.62rem; bottom: 1.25rem; }
+      .hero-meta { flex-wrap: wrap; gap: 0.6rem 1rem; padding: 0 1rem; font-size: 0.62rem; bottom: 5rem; }
       .scroll-line { display: none; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 0; padding: 3.5rem 1.25rem 0; }
       .stat-num { font-size: 2.4rem; }
       .stats .stat { border-left: 1px solid var(--border); padding: 0 0 0 1rem; }
       .stats .stat:nth-child(odd) { border-left: none; padding-left: 0; padding-right: 1rem; }
     }
+    .hero-resume-btn { display: none; }
+    @media (max-width: 768px) { .hero-resume-btn { display: inline-flex; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
     /* ===== ember accent ===== */
@@ -781,6 +783,7 @@
     <li><a href="#education">Education</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="resume.pdf" download>Resume</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -792,6 +795,7 @@
   <a href="#education" class="mobile-link">Education</a>
   <a href="#about" class="mobile-link">About</a>
   <a href="#contact" class="mobile-link">Contact</a>
+  <a href="resume.pdf" download class="mobile-link">Resume</a>
 </div>
 
 <section id="hero">
@@ -824,6 +828,7 @@
     <div class="hero-cta">
       <a href="#contact" class="btn btn-primary">Get in Touch</a>
       <a href="#projects" class="btn btn-outline">View Projects</a>
+      <a href="resume.pdf" download class="btn btn-outline hero-resume-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Resume</a>
     </div>
   </div>
 
@@ -1342,7 +1347,7 @@
   window.addEventListener('mousemove', e => { mx = e.clientX / window.innerWidth - 0.5; req(); });
   frame();
 
-  // count-up stats: climbs from 0 and replays every time the row scrolls into view
+  // count-up stats: climbs from 0 once, the first time the row scrolls into view
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const statEls = [...document.querySelectorAll('.stat-num')];
   const fmt = el => (el.dataset.prefix || '') + Math.round(+el.dataset.now || 0).toLocaleString() + (el.dataset.suffix || '');
@@ -1360,21 +1365,15 @@
     };
     runs.set(el, requestAnimationFrame(step));
   }
-  // start once the row is mostly visible (only if it isn't already counting or finished)
+  // play once: start when the row is mostly visible, then stop watching
   const startIO = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
     const el = e.target;
-    if (!e.isIntersecting || el.dataset.state === 'running' || el.dataset.state === 'done') return;
+    startIO.unobserve(el);
     if (reduceMotion) { el.dataset.now = el.dataset.to; el.textContent = fmt(el); el.dataset.state = 'done'; }
     else countUp(el);
   }), { threshold: 0.6 });
-  // reset only when fully off-screen, so it replays on the next visit without flickering
-  const resetIO = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) return;
-    const el = e.target;
-    cancelAnimationFrame(runs.get(el));
-    el.dataset.now = 0; el.dataset.state = 'idle'; el.textContent = fmt(el);
-  }), { threshold: 0 });
-  statEls.forEach(el => { startIO.observe(el); resetIO.observe(el); });
+  statEls.forEach(el => startIO.observe(el));
 
   // cursor spotlight on cards
   document.querySelectorAll('.proj-card, .skill-card, .lead-card, .edu-card').forEach(card => {
@@ -1440,6 +1439,54 @@
     syncTheme();
     setTimeout(() => root.classList.remove('theme-anim'), 450);
   });
+
+  // skills marquee: auto-scrolls, pauses on hover, drag (mouse or touch) to move it, with a little momentum
+  (() => {
+    const mq = document.querySelector('.marquee'), track = mq && mq.querySelector('.marquee-track');
+    if (!mq) return;
+    let x = 0, half = 0, hovering = false, dragging = false, inertia = 0;
+    let startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0, last = performance.now();
+    const measure = () => { half = track.scrollWidth / 2; };
+    const wrap = () => { if (!half) return; while (x <= -half) x += half; while (x > 0) x -= half; };
+    measure();
+    window.addEventListener('resize', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    function tick(now) {
+      const dt = Math.min((now - last) / 1000, 0.05); last = now;
+      if (!dragging) {
+        x += inertia * dt;
+        inertia *= Math.pow(0.04, dt);                    // glide to a stop
+        if (Math.abs(inertia) < 4) inertia = 0;
+        if (!hovering && !reduceMotion) x -= (half / 48) * dt;  // full loop in 48s
+      }
+      wrap();
+      track.style.transform = `translate3d(${x}px,0,0)`;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    mq.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hovering = true; });
+    mq.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hovering = false; });
+    mq.addEventListener('pointerdown', e => {
+      dragging = true; inertia = 0; vel = 0;
+      startX = lastX = e.clientX; startPos = x; lastT = performance.now();
+      mq.classList.add('dragging');
+      mq.setPointerCapture(e.pointerId);
+    });
+    mq.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      x = startPos + (e.clientX - startX);
+      const t = performance.now(), dt = (t - lastT) / 1000;
+      if (dt > 0) vel = 0.8 * vel + 0.2 * ((e.clientX - lastX) / dt);
+      lastX = e.clientX; lastT = t;
+    });
+    const end = () => {
+      if (!dragging) return;
+      dragging = false; mq.classList.remove('dragging');
+      inertia = Math.max(-2500, Math.min(2500, vel));
+    };
+    mq.addEventListener('pointerup', end);
+    mq.addEventListener('pointercancel', end);
+  })();
 </script>
 </body>
 </html>
