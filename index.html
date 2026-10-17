@@ -983,7 +983,7 @@
           </div>
         </div>
         <ul class="tl-bullets">
-          <li>Built a three-stage recommendation system, used by 100+ students, for student-advisor matching: candidate generation via local pre-scoring (60+ advisors → top 15), LLM-based career-fit classification on the shortlist, and a weighted 5-factor ranking (career fit, industry, experience, gender preference, capacity) producing top-5 recommendations.</li>
+          <li>Built a three-stage recommendation system, used by 450+ students, for student-advisor matching: candidate generation via local pre-scoring (60+ advisors → top 15), LLM-based career-fit classification on the shortlist, and a weighted 5-factor ranking (career fit, industry, experience, gender preference, capacity) producing top-5 recommendations.</li>
           <li>Cut recommendation generation time from ~60s to 3–5s and reduced LLM API calls by 75% by running Gemma (via OpenRouter) calls in parallel on a pre-scored shortlist, with results persisted so repeat views make no new LLM calls.</li>
           <li>Built the REST API routes and Supabase data layer, plus a pg_cron job that resets advisor capacity monthly.</li>
         </ul>
