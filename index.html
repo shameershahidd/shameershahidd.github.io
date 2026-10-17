@@ -819,6 +819,9 @@
     .stars { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
     .hero-stars { position: absolute; z-index: 0; }
     html[data-theme="light"] .stars { display: none; }
+
+    /* ===== tiny birds in the hero sky: drifting across and perching by day, heading for the horizon at night ===== */
+    .hero-birds { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
     #contact { background: transparent; }
 
     /* ===== light theme: it's daytime, the sun is up ===== */
@@ -867,6 +870,7 @@
 
 <section id="hero">
   <canvas class="stars hero-stars" id="heroStars" aria-hidden="true"></canvas>
+  <canvas class="hero-birds" id="heroBirds" aria-hidden="true"></canvas>
   <div class="mtn m1" data-k="0.28" data-m="-10"><svg viewBox="0 0 1200 400" preserveAspectRatio="none"><path/></svg></div>
   <div class="mtn m2" data-k="0.18" data-m="-22"><svg viewBox="0 0 1200 400" preserveAspectRatio="none"><path/></svg></div>
   <div class="hero-glow"></div>
@@ -1610,6 +1614,142 @@
     }
     field(document.getElementById('heroStars'), 140, { band: 0.62, a: [0.5, 0.95], parallax: false, watch: true });
     field(document.getElementById('pageStars'), 100, { band: 1, a: [0.4, 0.85], parallax: true, watch: false });
+  })();
+
+  // tiny birds flapping across the hero sky (light theme only)
+  (() => {
+    const canvas = document.getElementById('heroBirds');
+    if (!canvas || reduceMotion) return;
+    const ctx = canvas.getContext('2d');
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
+    let W = 0, H = 0, birds = [], dusk = [], visible = true, last = 0, lastCW = 0, lastCH = 0;
+    function spawn(b, fresh) {
+      const dir = Math.random() < 0.8 ? 1 : -1;       // most fly the same way, a few go against the flow
+      b.dir = dir; b.s = rnd(3.5, 7);
+      b.x = fresh ? rnd(0, W) : (dir > 0 ? -20 : W + 20);
+      b.y = rnd(0.07, 0.26) * H;                       // stay in the sky above the headline
+      b.v = rnd(14, 34) * dir; b.ph = rnd(0, 6.28); b.fr = rnd(5, 8);
+      b.bob = rnd(0, 6.28); b.a = rnd(0.45, 0.75);
+      return b;
+    }
+    function size() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2), r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height; lastCW = canvas.clientWidth; lastCH = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      birds = Array.from({ length: W < 769 ? 4 : 7 }, () => spawn({}, true));
+      dusk = Array.from({ length: W < 769 ? 3 : 6 }, () => spawnDusk({}, true));
+    }
+    // night: birds glide away toward the horizon, shrinking and fading until they slip behind the ridge
+    function spawnDusk(b, fresh) {
+      b.x0 = rnd(0.1, 0.9) * W; b.y0 = rnd(0.08, 0.3) * H;
+      b.x1 = W * rnd(0.3, 0.7) + (b.x0 - W / 2) * 0.25; b.y1 = rnd(0.52, 0.62) * H;
+      b.u = fresh ? rnd(0, 1) : 0; b.dur = rnd(16, 26);
+      b.s = rnd(4.5, 7); b.ph = rnd(0, 6.28); b.fr = rnd(4, 6.5);
+      return b;
+    }
+    size(); window.addEventListener('resize', size);
+    new IntersectionObserver(e => { visible = e[0].isIntersecting; }).observe(canvas.parentElement);
+    const INK = (a) => `rgba(40,42,50,${a})`;
+    function wings(x, y, s, wing, a) {
+      ctx.strokeStyle = INK(a); ctx.lineWidth = 1.2; ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(x - s, y - wing);
+      ctx.quadraticCurveTo(x - s * 0.45, y - wing * 0.2 - s * 0.3, x, y);
+      ctx.quadraticCurveTo(x + s * 0.45, y - wing * 0.2 - s * 0.3, x + s, y - wing);
+      ctx.stroke();
+    }
+    // a bird with folded wings, feet on (x, y), facing f (+1 right / -1 left)
+    function sitting(x, y, f, bob) {
+      ctx.fillStyle = ctx.strokeStyle = INK(0.85); ctx.lineWidth = 1.3; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.ellipse(x - f * 0.5, y - 3, 3.4, 2.4, -f * 0.3, 0, 6.2832); ctx.fill();
+      ctx.beginPath(); ctx.arc(x + f * 3, y - 5.3 + bob, 1.7, 0, 6.2832); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(x + f * 4.4, y - 5.5 + bob); ctx.lineTo(x + f * 6, y - 5.1 + bob); ctx.lineTo(x + f * 4.4, y - 4.7 + bob); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(x - f * 2.5, y - 3); ctx.lineTo(x - f * 6.5, y - 1.4); ctx.stroke();
+      ctx.lineWidth = 0.9;
+      ctx.beginPath(); ctx.moveTo(x - 0.5, y - 1); ctx.lineTo(x - 0.5, y); ctx.moveTo(x + 1, y - 1); ctx.lineTo(x + 1, y); ctx.stroke();
+    }
+
+    // a pair of birds now and then swoops in, perches on the "shameer.com" logo for a few seconds, then flies off
+    const logo = document.querySelector('.hero-logo');
+    let perchers = [], clock = 0, nextAt = 3;
+    const perchPt = () => {
+      const lr = logo.getBoundingClientRect(), cr = canvas.getBoundingClientRect();
+      return { x: lr.left - cr.left + lr.width * 0.82, y: lr.top - cr.top + lr.height * 0.3 };
+    };
+    function perch(dt) {
+      clock += dt;
+      if (!perchers.length && clock >= nextAt && logo && logo.offsetWidth) {
+        const n = Math.random() < 0.5 ? 1 : 2;
+        for (let i = 0; i < n; i++) perchers.push({ st: 'wait', w: i * rnd(0.8, 1.6), off: i * 18, s: 5, ph: 0 });
+      }
+      for (let i = perchers.length - 1; i >= 0; i--) {
+        const p = perchers[i];
+        if (p.st === 'wait') {
+          p.w -= dt;
+          if (p.w > 0) continue;
+          const pt = perchPt();
+          p.f = Math.random() < 0.5 ? 1 : -1;
+          p.sx = p.f > 0 ? -30 : W + 30; p.sy = pt.y - rnd(70, 140);
+          p.t = 0; p.dur = rnd(2.4, 3.2); p.st = 'in';
+        }
+        if (p.st === 'in') {
+          p.t += dt / p.dur;
+          const e = Math.min(p.t, 1), pt = perchPt();
+          p.x = p.sx + (pt.x + p.off - p.sx) * (1 - (1 - e) ** 2);
+          p.y = p.sy + (pt.y - p.sy) * e * e + Math.sin(e * 9) * 2 * (1 - e);
+          p.ph += (8 + 8 * e) * dt;
+          wings(p.x, p.y, p.s, Math.sin(p.ph) * p.s * 0.6 * (1 - 0.3 * e), 0.85);
+          if (e >= 1) { p.st = 'sit'; p.t = 0; p.dur = rnd(2.5, 4); }
+        } else if (p.st === 'sit') {
+          const pt = perchPt();
+          p.x = pt.x + p.off; p.y = pt.y; p.t += dt;
+          sitting(p.x, p.y, p.f, Math.max(0, Math.sin(p.t * 5)) * 0.8 * (p.t % 1.3 < 0.5 ? 1 : 0));
+          if (p.t > p.dur) {
+            p.st = 'out'; p.f = Math.random() < 0.5 ? 1 : -1;
+            p.vx = p.f * rnd(35, 60); p.vy = -rnd(25, 45);
+          }
+        } else {
+          p.x += p.vx * dt; p.y += p.vy * dt; p.ph += 11 * dt;
+          wings(p.x, p.y, p.s, Math.sin(p.ph) * p.s * 0.6, 0.85);
+          if (p.x < -30 || p.x > W + 30 || p.y < -30) perchers.splice(i, 1);
+        }
+      }
+      if (!perchers.length && clock >= nextAt) nextAt = clock + rnd(8, 14);
+    }
+
+    function draw(t) {
+      requestAnimationFrame(draw);
+      const dt = Math.min((t - last) / 1000, 0.05); last = t;
+      if (!visible) { ctx.clearRect(0, 0, W, H); return; }
+      if (canvas.clientWidth && (canvas.clientWidth !== lastCW || canvas.clientHeight !== lastCH)) size();
+      ctx.clearRect(0, 0, W, H);
+      if (!isLight()) {
+        for (const b of dusk) {
+          b.u += dt / b.dur; b.ph += b.fr * dt;
+          if (b.u >= 1) spawnDusk(b, false);
+          const u = b.u, e = u * (2 - u) * 0.6 + u * 0.4;        // slows slightly as it recedes
+          const s = b.s * (1 - 0.7 * u), a = 0.6 * Math.min(1, u * 8) * Math.min(1, (1 - u) * 5);
+          const x = b.x0 + (b.x1 - b.x0) * e, y = b.y0 + (b.y1 - b.y0) * e + Math.sin(b.ph * 0.4) * 2;
+          ctx.strokeStyle = `rgba(228,230,238,${a})`; ctx.lineWidth = Math.max(0.8, 1.2 * (1 - 0.4 * u)); ctx.lineCap = 'round';
+          const wing = Math.sin(b.ph) * s * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(x - s, y - wing);
+          ctx.quadraticCurveTo(x - s * 0.45, y - wing * 0.2 - s * 0.3, x, y);
+          ctx.quadraticCurveTo(x + s * 0.45, y - wing * 0.2 - s * 0.3, x + s, y - wing);
+          ctx.stroke();
+        }
+        return;
+      }
+      for (const b of birds) {
+        b.x += b.v * dt; b.ph += b.fr * dt; b.bob += 1.2 * dt;
+        if ((b.dir > 0 && b.x > W + 20) || (b.dir < 0 && b.x < -20)) spawn(b, false);
+        wings(b.x, b.y + Math.sin(b.bob) * 3, b.s, Math.sin(b.ph) * b.s * 0.6, b.a);
+      }
+      perch(dt);
+    }
+    requestAnimationFrame(draw);
   })();
 </script>
 </body>
