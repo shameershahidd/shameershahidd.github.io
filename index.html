@@ -285,6 +285,9 @@
       color: var(--tag1);
       border: 1px solid rgba(var(--fg-rgb),0.25);
     }
+    .tag.has-icon { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .tag-icon { width: 14px; height: 14px; flex-shrink: 0; }
+    html[data-theme="dark"] .tag-icon.mono { filter: invert(1); }   /* black logos (GitHub, Next.js) need to flip on dark */
     .tag.purple {
       background: rgba(var(--fg-rgb),0.08);
       color: var(--tag2);
@@ -929,40 +932,40 @@
       <div class="skill-card">
         <div class="skill-card-label">Languages</div>
         <div class="skill-tags">
-          <span class="tag">Python</span>
-          <span class="tag">Java</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">C/C++</span>
+          <span class="tag has-icon"><img class="tag-icon" src="icons/python.svg" alt="" width="14" height="14">Python</span>
+          <span class="tag has-icon"><img class="tag-icon" src="icons/java.svg" alt="" width="14" height="14">Java</span>
+          <span class="tag has-icon"><img class="tag-icon" src="icons/javascript.svg" alt="" width="14" height="14">JavaScript</span>
+          <span class="tag has-icon"><img class="tag-icon" src="icons/cplusplus.svg" alt="" width="14" height="14">C/C++</span>
           <span class="tag">SQL</span>
-          <span class="tag">HTML</span>
-          <span class="tag">CSS</span>
+          <span class="tag has-icon"><img class="tag-icon" src="icons/html5.svg" alt="" width="14" height="14">HTML</span>
+          <span class="tag has-icon"><img class="tag-icon" src="icons/css3.svg" alt="" width="14" height="14">CSS</span>
         </div>
       </div>
       <div class="skill-card">
         <div class="skill-card-label">Frameworks &amp; Libraries</div>
         <div class="skill-tags">
-          <span class="tag purple">React</span>
-          <span class="tag purple">Next.js</span>
-          <span class="tag purple">Spring Boot</span>
-          <span class="tag purple">FastAPI</span>
-          <span class="tag purple">OpenCV</span>
-          <span class="tag purple">PyTorch</span>
+          <span class="tag has-icon purple"><img class="tag-icon" src="icons/react.svg" alt="" width="14" height="14">React</span>
+          <span class="tag has-icon purple"><img class="tag-icon mono" src="icons/nextjs.svg" alt="" width="14" height="14">Next.js</span>
+          <span class="tag has-icon purple"><img class="tag-icon" src="icons/spring.svg" alt="" width="14" height="14">Spring Boot</span>
+          <span class="tag has-icon purple"><img class="tag-icon" src="icons/fastapi.svg" alt="" width="14" height="14">FastAPI</span>
+          <span class="tag has-icon purple"><img class="tag-icon" src="icons/opencv.svg" alt="" width="14" height="14">OpenCV</span>
+          <span class="tag has-icon purple"><img class="tag-icon" src="icons/pytorch.svg" alt="" width="14" height="14">PyTorch</span>
           <span class="tag purple">MediaPipe</span>
-          <span class="tag purple">NumPy</span>
+          <span class="tag has-icon purple"><img class="tag-icon" src="icons/numpy.svg" alt="" width="14" height="14">NumPy</span>
         </div>
       </div>
       <div class="skill-card">
         <div class="skill-card-label">Tools &amp; Databases</div>
         <div class="skill-tags">
-          <span class="tag teal">PostgreSQL</span>
-          <span class="tag teal">MongoDB</span>
-          <span class="tag teal">Redis</span>
-          <span class="tag teal">Docker</span>
-          <span class="tag teal">Git/GitHub</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/postgresql.svg" alt="" width="14" height="14">PostgreSQL</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/mongodb.svg" alt="" width="14" height="14">MongoDB</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/redis.svg" alt="" width="14" height="14">Redis</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/docker.svg" alt="" width="14" height="14">Docker</span>
+          <span class="tag has-icon teal"><img class="tag-icon mono" src="icons/github.svg" alt="" width="14" height="14">Git/GitHub</span>
           <span class="tag teal">REST APIs</span>
-          <span class="tag teal">OAuth 2.0</span>
-          <span class="tag teal">Jupyter</span>
-          <span class="tag teal">Jira</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/oauth.svg" alt="" width="14" height="14">OAuth 2.0</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/jupyter.svg" alt="" width="14" height="14">Jupyter</span>
+          <span class="tag has-icon teal"><img class="tag-icon" src="icons/jira.svg" alt="" width="14" height="14">Jira</span>
         </div>
       </div>
       <div class="skill-card">
