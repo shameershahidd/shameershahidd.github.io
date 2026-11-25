@@ -993,9 +993,10 @@
           </div>
         </div>
         <ul class="tl-bullets">
-          <li>Built a three-stage recommendation system, used by 450+ students, for student-advisor matching: candidate generation via local pre-scoring (60+ advisors → top 15), LLM-based career-fit classification on the shortlist, and a weighted 5-factor ranking (career fit, industry, experience, gender preference, capacity) producing top-5 recommendations.</li>
+          <li>Built a three-stage recommendation system, used by 450+ users, for student-advisor matching: candidate generation via local pre-scoring (60+ advisors → top 15) and LLM-based career-fit classification on the shortlist.</li>
+          <li>Applied a weighted 5-factor ranking (career fit, industry, experience, gender preference, capacity) to produce top-5 recommendations.</li>
           <li>Cut recommendation generation time from ~60s to 3–5s and reduced LLM API calls by 75% by running Gemma (via OpenRouter) calls in parallel on a pre-scored shortlist, with results persisted so repeat views make no new LLM calls.</li>
-          <li>Built the REST API routes and Supabase data layer, plus a pg_cron job that resets advisor capacity monthly.</li>
+          <li>Built the REST API and Supabase data layer, and automated monthly advisor capacity resets with pg_cron, removing manual updates.</li>
         </ul>
         <div class="tl-tech">
           <span class="tag">JavaScript</span>
@@ -1015,9 +1016,10 @@
           </div>
         </div>
         <ul class="tl-bullets">
-          <li>Shipped HubSpot, Salesforce, and Asana integrations for an AI-powered government contract intelligence platform used by 100+ companies, implementing OAuth 2.0 authorization-code flows with org-level multi-tenant token storage and automatic token refresh.</li>
-          <li>Engineered a Redis + RQ job queue with three dedicated workers that moves every sync off the request path, so a slow or rate-limited provider never blocks users or other providers. Jobs fire from six CRUD endpoints, are gated by per-org JSONB toggles, and are idempotent (search-then-upsert), so retries and re-syncs create no duplicates.</li>
-          <li>Delivered the React UI end to end: a Settings page with reusable connect and configure cards, a connection-status custom hook, and in-context “Add to HubSpot” sync buttons across five existing pages.</li>
+          <li>Shipped HubSpot, Salesforce, and Asana integrations for an AI-powered government contract intelligence platform used by 100+ companies, letting teams sync pursuits and contacts to their CRM automatically through OAuth 2.0 with multi-tenant token storage and refresh.</li>
+          <li>Engineered a Redis + RQ job queue with three dedicated workers that moves every sync off the request path, so a slow or rate-limited provider never blocks users or other providers.</li>
+          <li>Made jobs idempotent (search-then-upsert), gated by per-org JSONB toggles across six CRUD endpoints, preventing duplicate syncs.</li>
+          <li>Delivered the React UI end to end (reusable connect cards, a connection-status custom hook), letting users connect accounts and sync records in one click from five existing pages.</li>
         </ul>
         <div class="tl-tech">
           <span class="tag">Python</span>
@@ -1040,8 +1042,8 @@
           </div>
         </div>
         <ul class="tl-bullets">
-          <li>Built preprocessing pipelines turning 1TB+ of maritime vessel footage (1,000+ hrs) into structured face-crop datasets using YuNet face detection, supporting crew-identification and work-hour compliance research under Dr. Yasin Yilmaz.</li>
-          <li>Cut processing roughly 30x with frame sampling, swept confidence thresholds to balance false positives against missed faces, and added fault-tolerant batch processing so multi-day runs survived corrupt files.</li>
+          <li>Built preprocessing pipelines turning 1TB+ of maritime vessel footage (1,000+ hrs) into face-crop datasets with YuNet face detection.</li>
+          <li>Applied frame sampling (30x fewer frames), tuned confidence thresholds, and fault-tolerant batch processing, supporting crew-identification and work-hour compliance research under Dr. Yasin Yilmaz.</li>
         </ul>
         <div class="tl-tech">
           <span class="tag">Python</span>
@@ -1061,8 +1063,8 @@
           </div>
         </div>
         <ul class="tl-bullets">
-          <li>Built ground-truth datasets across 80 field sites and 1,000+ micro-mobility devices (helmet use, direction, demographics) via synchronized video and digital logging, used to train and evaluate computer-vision models for transportation-safety research under Dr. Changyoung Lee.</li>
-          <li>Annotating and analysing eye-tracking recordings from a follow-up gaze study of drivers near riders to build labeled data for further computer-vision models.</li>
+          <li>Built ground-truth datasets at 80 field sites and 1,000+ micro-mobility devices (helmet use, direction, demographics) via synchronized video and logging, used to train and evaluate computer-vision models.</li>
+          <li>In a follow-up gaze study, now annotating eye-tracking recordings of drivers near riders to build labeled data, under Dr. Changyoung Lee.</li>
         </ul>
       </div>
 
@@ -1193,7 +1195,7 @@
         <div class="edu-school">University of South Florida</div>
         <div class="edu-meta">Aug. 2022 – Expected Dec. 2026 · Tampa, FL</div>
         <div class="edu-details">
-          <div class="edu-detail"><strong>GPA:</strong> 3.6/4.0</div>
+          <div class="edu-detail"><strong>GPA:</strong> 3.69/4.0</div>
           <div class="edu-detail"><strong>Scholarship:</strong> USF Green &amp; Gold Presidential Scholar</div>
           <div class="edu-detail"><strong>Relevant Coursework:</strong></div>
         </div>
